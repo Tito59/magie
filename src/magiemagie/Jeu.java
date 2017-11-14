@@ -21,6 +21,7 @@ public class Jeu {
     private boolean exit = false;
     private Joueur joueurEnCours;
     Random random = new Random();
+    int sortieGererPartie = 0;
     //   protected Sorts sort;
 
 //    public enum Sorts {
@@ -102,7 +103,7 @@ public class Jeu {
 
         TypeCarte[] tabTypCart = Carte.TypeCarte.values();
         Carte tempo;
-
+        int sommeil = 0;
         int nbAuHazard;
 
         //Distribution de 7 cartes à chaque joueur
@@ -123,7 +124,6 @@ public class Jeu {
     public void gererPartie() {
         Scanner choixMenuAction = new Scanner(System.in);
         int n = 0;
-        int sortie = 0;
 
         while (joueurEnCours != null) {
 
@@ -149,25 +149,25 @@ public class Jeu {
                             break;
                         case "3"://Passer son tour
                             donnerCarteAleatoire(j);
-                            sortie = 1;
-                            System.out.println(sortie);
+                            sortieGererPartie = 1;
+                            System.out.println(sortieGererPartie);
                             break;
                         default:
                             System.out.println("Erreur de saisie");
                             break;
                     }
-                } while (sortie == 0);
+                } while (sortieGererPartie == 0);
                 if (joueurs.size() == 1) {
                     System.out.println("Vous avez gagner!\n");
                     joueurEnCours = null;
                 } else if (n + 1 == joueurs.size()) { //Si on atteint la dernière personne de la liste on recommence avec le 1ère de la liste
                     n = 0;
                     joueurEnCours = joueurs.get(n);
-                    sortie = 0;
+                    sortieGererPartie = 0;
                 } else {
                     n++;
                     joueurEnCours = joueurs.get(n);
-                    sortie = 0;
+                    sortieGererPartie = 0;
                 }
             }
         }
@@ -187,80 +187,113 @@ public class Jeu {
         carte4.setType(TypeCarte.LAPIS_LAZULI);
         carte5.setType(TypeCarte.CORNE_DE_LICORNE);
         Scanner choixs = new Scanner(System.in);
+        Scanner choixCible = new Scanner(System.in);
         Carte tempo;
+        Joueur cible;
+        List<Joueur> tempojoueurs = new ArrayList<>();
         //TypeCarte[] tabTypCart = Carte.TypeCarte.values();
         int chiffreAuHazard;
+        int exitTour = 0;
         
+        while (exitTour != 1) {
+            //if (jactuel.getCartes().contains(Carte.TypeCarte.CORNE_DE_LICORNE) && jactuel.getCartes().contains(Carte.TypeCarte.BAVE_DE_CRAPAUD)) {
+            if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte2)) {
+                System.out.println("1]INVISIBILITE");
+            }
 
-        //if (jactuel.getCartes().contains(Carte.TypeCarte.CORNE_DE_LICORNE) && jactuel.getCartes().contains(Carte.TypeCarte.BAVE_DE_CRAPAUD)) {
-        if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte2)) {
-            System.out.println("1]INVISIBILITE");
-        }
+            //if (jactuel.getCartes().contains(Carte.TypeCarte.CORNE_DE_LICORNE) && jactuel.getCartes().contains(Carte.TypeCarte.MANDRAGORE)) {
+            if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte1)) {
+                System.out.println("2]FILTRE D'AMOUR");
+            }
 
-        //if (jactuel.getCartes().contains(Carte.TypeCarte.CORNE_DE_LICORNE) && jactuel.getCartes().contains(Carte.TypeCarte.MANDRAGORE)) {
-        if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte1)) {
-            System.out.println("2]FILTRE D'AMOUR");
-        }
+            //if (jactuel.getCartes().contains(Carte.TypeCarte.LAPIS_LAZULI) && jactuel.getCartes().contains(Carte.TypeCarte.AILE_DE_CHAUVE_SOURIS)) {
+            if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte3)) {
+                System.out.println("3]DIVINATION");
+            }
 
-        //if (jactuel.getCartes().contains(Carte.TypeCarte.LAPIS_LAZULI) && jactuel.getCartes().contains(Carte.TypeCarte.AILE_DE_CHAUVE_SOURIS)) {
-        if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte3)) {
-            System.out.println("3]DIVINATION");
-        }
+            //if (jactuel.getCartes().contains(Carte.TypeCarte.MANDRAGORE) && jactuel.getCartes().contains(Carte.TypeCarte.AILE_DE_CHAUVE_SOURIS)) {
+            if (joueurEnCours.getCartes().contains(carte1) && joueurEnCours.getCartes().contains(carte3)) {
+                System.out.println("4]SOMMEIL PROFOND");
+            }
 
-        //if (jactuel.getCartes().contains(Carte.TypeCarte.MANDRAGORE) && jactuel.getCartes().contains(Carte.TypeCarte.AILE_DE_CHAUVE_SOURIS)) {
-        if (joueurEnCours.getCartes().contains(carte1) && joueurEnCours.getCartes().contains(carte3)) {
-            System.out.println("4]SOMMEIL PROFOND");
-        }
+            //if (jactuel.getCartes().contains(Carte.TypeCarte.LAPIS_LAZULI) && jactuel.getCartes().contains(Carte.TypeCarte.BAVE_DE_CRAPAUD)) {
+            if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte2)) {
+                System.out.println("5]HYPNOSE");
+            }
 
-        //if (jactuel.getCartes().contains(Carte.TypeCarte.LAPIS_LAZULI) && jactuel.getCartes().contains(Carte.TypeCarte.BAVE_DE_CRAPAUD)) {
-        if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte2)) {
-            System.out.println("5]HYPNOSE");
-        }
-        System.out.print("Votre choix ?");
-        String choixSort = choixs.next();
-        //System.out.println(jactuel.cartes);
-        //Joueur cible = selectionnerJoueur();
-        switch (choixSort) {
-            case "1"://INVISIBILITE
-                if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte2)) {
-                    
-                    for (Joueur j : joueurs) {
-                        //Traitements
-                        tempo = new Carte();
-                        if(joueurEnCours != j){
-                            chiffreAuHazard = random.nextInt(j.getCartes().size());
-                            joueurEnCours.getCartes().add(j.getCartes().get(chiffreAuHazard));
-                            j.getCartes().remove(chiffreAuHazard);
-                            
+            System.out.println("6]RETOUR\n");
+
+            exitTour = 0;
+            System.out.print("Votre choix ?");
+            String choixSort = choixs.next();
+            int numjoueur;
+
+            switch (choixSort) {
+                case "1"://INVISIBILITE
+                    if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte2)) {
+
+                        for (Joueur j : joueurs) {
+                            //Traitements
+                            tempo = new Carte();
+                            if (joueurEnCours != j) {
+                                chiffreAuHazard = random.nextInt(j.getCartes().size());
+                                joueurEnCours.getCartes().add(j.getCartes().get(chiffreAuHazard));
+                                j.getCartes().remove(chiffreAuHazard);
+
+                            }
                         }
+                        joueurEnCours.getCartes().remove(carte5);
+                        joueurEnCours.getCartes().remove(carte2);
+                        exitTour = 1;
+                        sortieGererPartie = 1;
                     }
-                    joueurEnCours.getCartes().remove(carte5);
-                    joueurEnCours.getCartes().remove(carte2);
-                }
-                break;
-            case "2":
-                if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte1)) {
-
-                }
-                break;
-            case "3":
-                if (joueurEnCours.getCartes().contains(carte2) && joueurEnCours.getCartes().contains(carte3)) {
-
-                }
-                break;
-            case "4":
-                if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte3)) {
-
-                }
-                break;
-            case "5":
-                if (joueurEnCours.getCartes().contains(carte1) && joueurEnCours.getCartes().contains(carte2)) {
-
-                }
-                break;
-            default:
-                System.out.println("Erreur de saisie");
-                break;
+                    break;
+                case "2"://FILTRE D'AMOUR
+                    if (joueurEnCours.getCartes().contains(carte5) && joueurEnCours.getCartes().contains(carte1)) {
+                        System.out.println("Coming soon...");
+                    }
+                    break;
+                case "3"://DIVINATION
+                    if (joueurEnCours.getCartes().contains(carte2) && joueurEnCours.getCartes().contains(carte3)) {
+                        for (Joueur j : joueurs) {
+                            if (joueurEnCours != j) {
+                                System.out.println(j);
+                            }
+                        }
+                        exitTour = 1;
+                        sortieGererPartie = 1;
+                    }
+                    break;
+                case "4"://SOMMEIL PROFOND
+                    if (joueurEnCours.getCartes().contains(carte4) && joueurEnCours.getCartes().contains(carte3)) {
+                        numjoueur = 0;
+                        System.out.println("-----Choix des cibles-----");
+                        for (Joueur j : joueurs) {//Affiche la liste des victimes
+                            if (joueurEnCours != j) {
+                                System.out.println(numjoueur + "]" + "Nom : " + j.getNom());
+                                tempojoueurs.add(j);
+                                numjoueur++;
+                            }
+                        }
+                        System.out.println("\n Votre cible ? ");
+                        String choixCibleJoueur = choixCible.next();
+                        int choixJoueur = Integer.parseInt(choixCibleJoueur);
+                        cible = new Joueur();
+                        cible = tempojoueurs.get(choixJoueur);
+                    }
+                    break;
+                case "5"://HYPNOSE
+                    if (joueurEnCours.getCartes().contains(carte1) && joueurEnCours.getCartes().contains(carte2)) {
+                        System.out.println("Coming soon...");
+                    }
+                    break;
+                case "6"://RETOUR
+                    exitTour = 1;
+                    break;
+                default:
+                    System.out.println("Erreur de saisie\n");
+                    break;
+            }
         }
     }
 
